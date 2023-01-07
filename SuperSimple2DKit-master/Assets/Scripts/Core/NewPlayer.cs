@@ -49,6 +49,9 @@ public class NewPlayer : PhysicsObject
     public float maxSpeed = 7; //Max move speed
     public float jumpPower = 17;
     private bool jumping;
+    public float inAirMomentum = 0;
+    public float airMovementModifier = .5f;
+    private bool groundedLastFrame = true;
     private Vector3 origLocalScale;
     [System.NonSerialized] public bool pounded;
     [System.NonSerialized] public bool pounding;
@@ -115,6 +118,17 @@ public class NewPlayer : PhysicsObject
         if (!frozen)
         {
             move.x = Input.GetAxis("Horizontal") + launch;
+            if (groundedLastFrame && !grounded)
+            {
+                inAirMomentum = move.x;
+            }
+            groundedLastFrame = grounded;
+            if (!grounded)
+            {
+                inAirMomentum += Input.GetAxis("Horizontal")*airMovementModifier;
+                inAirMomentum = Mathf.Clamp(inAirMomentum, -1f, 1f);
+                move.x = inAirMomentum;
+            }
 
             if (Input.GetButtonDown("Jump") && animator.GetBool("grounded") == true && !jumping)
             {
