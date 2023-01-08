@@ -33,7 +33,7 @@ public class Rope : MonoBehaviour
         {
 			AddHook();
         }
-		else if (d2 < 1.2 && secondSegmentCache.deletable)
+		else if (d2 < 1f && secondSegmentCache.deletable)
         {
 			DeleteNearestSegment();
         }
