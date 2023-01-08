@@ -4,17 +4,7 @@ using UnityEngine;
 
 public class Pylon : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public RopeSegment attachedRopeSegment;
 
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -30,6 +20,6 @@ public class Pylon : MonoBehaviour
 
     void ConnectPylon()
     {
-        NewPlayer.Instance.rope.AttachDetachPylon(this);
+        attachedRopeSegment = NewPlayer.Instance.rope.AttachDetachPylon(this);
     }
 }

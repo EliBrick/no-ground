@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CopyLine : MonoBehaviour
 {
-    public LineRenderer copyFrom;
     private LineRenderer copyTo;
+    public Rope rope;
     void Start()
     {
         copyTo = GetComponent <LineRenderer>();
@@ -14,9 +14,25 @@ public class CopyLine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3[] positions = new Vector3[copyFrom.positionCount];
-        copyFrom.GetPositions(positions);
-        copyTo.positionCount = copyFrom.positionCount;
-        copyTo.SetPositions(positions);
+        if (rope.lastConnectedRopeSegment is null)
+        {
+            copyTo.positionCount = 0;
+            return;
+        }
+        int i = rope.transforms.IndexOf(rope.lastConnectedRopeSegment.transform);
+        copyTo.positionCount = rope.transforms.Count - i;
+        Vector3[] ps = new Vector3[copyTo.positionCount];
+        for (int j = 0; j < copyTo.positionCount; j++)
+        {
+            Transform t = rope.transforms[rope.transforms.Count - 1 - j];
+            t.GetComponent<RopeSegment>().electrified = true;
+            ps[j] = rope.transforms[rope.transforms.Count - 1 - j].position;
+        }
+        for(int j = copyTo.positionCount; j < rope.transforms.Count-1; j++)
+        {
+            Transform t = rope.transforms[rope.transforms.Count - 1 - j];
+            t.GetComponent<RopeSegment>().electrified = false;
+        }
+        copyTo.SetPositions(ps);
     }
 }

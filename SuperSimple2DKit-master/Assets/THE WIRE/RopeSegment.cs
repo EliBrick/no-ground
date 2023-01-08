@@ -7,12 +7,28 @@ public class RopeSegment : MonoBehaviour
     public GameObject connectedAbove, connectedBelow;
     public bool deletable = false;
     public bool undeletable = false;
+    public bool electrified = false;
+    SpriteRenderer sr;
     // Start is called before the first frame update
     void Start()
     {
         Inst();
         StartCoroutine(CountdownToDeletable(.01f));
+        sr = GetComponent<SpriteRenderer>();
     }
+
+    private void Update()
+    {
+        if (electrified)
+        {
+            sr.color = Color.red;
+        }
+        else
+        {
+            sr.color = Color.white;
+        }
+    }
+
     public void Inst()
     {
         //Debug.Log("Start()"+Random.value);

@@ -18,7 +18,11 @@ public class Rope : MonoBehaviour
 
 	public RopeSegment secondSegmentCache;
 
-	private Dictionary<Pylon, RopeSegment> attachedPylons = new Dictionary<Pylon, RopeSegment>();
+	private List<Pylon> attachedPylons = new List<Pylon>();
+
+	public RopeSegment lastConnectedRopeSegment;
+
+	public CopyLine copyLine;
 
 	void Start()
 	{
@@ -121,25 +125,32 @@ public class Rope : MonoBehaviour
 		lr.SetPositions(ps);
     }
 
-	public void AttachDetachPylon(Pylon p)
+	public RopeSegment AttachDetachPylon(Pylon p)
     {
 		//secondSegmentCache.transform.position = t.position;
-		if(!attachedPylons.ContainsKey(p))
+		if(!attachedPylons.Contains(p))
         {
 			AddHook();
 			secondSegmentCache.undeletable = true;
 			secondSegmentCache.transform.position = p.transform.position;
 			secondSegmentCache.transform.rotation = secondSegmentCache.connectedBelow.transform.rotation;
 			secondSegmentCache.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-			attachedPylons[p] = secondSegmentCache;
+			attachedPylons.Add(p);
+			lastConnectedRopeSegment = secondSegmentCache;
+			return secondSegmentCache;
 		}
 		else
 		{
-			RopeSegment toDetach = attachedPylons[p];
+			RopeSegment toDetach = p.attachedRopeSegment;
 			toDetach.undeletable = false;
 			toDetach.deletable = true;
 			toDetach.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
 			attachedPylons.Remove(p);
+			if (attachedPylons.Count > 0)
+				lastConnectedRopeSegment = attachedPylons[^1].attachedRopeSegment;
+			else
+				lastConnectedRopeSegment = null;
+			return null;
 		}
 
 	}
