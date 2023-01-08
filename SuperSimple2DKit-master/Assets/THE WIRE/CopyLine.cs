@@ -30,7 +30,10 @@ public class CopyLine : MonoBehaviour
         for (int j = 0; j < copyTo.positionCount; j++)
         {
             Transform t = rope.transforms[rope.transforms.Count - 1 - j];
-            t.GetComponent<RopeSegment>().electrified = true;
+            if(j< copyTo.positionCount-2)
+                t.GetComponent<RopeSegment>().electrified = true;
+            else
+                t.GetComponent<RopeSegment>().electrified = false;
             ps[j] = rope.transforms[rope.transforms.Count - 1 - j].position;
         }
         for(int j = copyTo.positionCount; j < rope.transforms.Count-1; j++)

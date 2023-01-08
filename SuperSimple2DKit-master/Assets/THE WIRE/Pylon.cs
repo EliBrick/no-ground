@@ -5,14 +5,39 @@ using UnityEngine;
 public class Pylon : MonoBehaviour
 {
     public RopeSegment attachedRopeSegment;
+    public bool electrified = false;
+    private bool interactable;
+    SpriteRenderer sr;
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject != NewPlayer.Instance.gameObject)
+        if (collision.gameObject != NewPlayer.Instance.gameObject) return;
+        //Debug.Log("yeap");
+        interactable = true;
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject != NewPlayer.Instance.gameObject) return;
+        //Debug.Log("nope");
+        interactable = false;
+    }
+
+    private void Start()
+    {
+        sr = GetComponent<SpriteRenderer>();
+    }
+
+    private void Update()
+    {
+        if (interactable)
         {
-            return;
+            sr.color = Color.green;
         }
-        if (Input.GetKeyDown(KeyCode.E))
+        else
+        {
+            sr.color = Color.white;
+        }
+        if (Input.GetKeyDown(KeyCode.E) && interactable)
         {
             ConnectPylon();
         }
@@ -21,5 +46,7 @@ public class Pylon : MonoBehaviour
     void ConnectPylon()
     {
         attachedRopeSegment = NewPlayer.Instance.rope.AttachDetachPylon(this);
+        electrified = (attachedRopeSegment is not null);
+        GameManager.Instance.checkPuzzle();
     }
 }

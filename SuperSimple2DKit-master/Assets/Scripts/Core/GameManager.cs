@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     [SerializeField] public AudioTrigger gameMusic;
     [SerializeField] public AudioTrigger gameAmbience;
+    public List<Pylon> pylons = new List<Pylon>();
 
     // Singleton instantiation
     public static GameManager Instance
@@ -51,6 +52,34 @@ public class GameManager : MonoBehaviour
     {   
         inventory.Clear();
         hud.SetInventoryImage(hud.blankUI);
+    }
+
+    public void checkPuzzle()
+    {
+        if(pylons.Count == 0)
+        {
+            pylons = new List<Pylon>(FindObjectsOfType<Pylon>());
+        }
+        bool levelClear = true;
+        foreach (var p in pylons)
+        {
+            if (!p.electrified)
+            {
+                levelClear = false;
+            }
+        }
+        if (levelClear)
+        {
+            GameObject door = GameObject.Find("Door");
+            door.GetComponent<Collider2D>().enabled = true;
+            door.GetComponent<SpriteRenderer>().color = Color.green;
+        }
+        else
+        {
+            GameObject door = GameObject.Find("Door");
+            door.GetComponent<Collider2D>().enabled = false;
+            door.GetComponent<SpriteRenderer>().color = Color.red;
+        }
     }
 
 }

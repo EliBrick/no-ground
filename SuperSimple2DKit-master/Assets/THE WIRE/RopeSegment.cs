@@ -22,10 +22,12 @@ public class RopeSegment : MonoBehaviour
         if (electrified)
         {
             sr.color = Color.red;
+            gameObject.layer = 0;
         }
         else
         {
             sr.color = Color.white;
+            gameObject.layer = 10;
         }
     }
 
@@ -52,6 +54,16 @@ public class RopeSegment : MonoBehaviour
         yield return new WaitForSeconds(time);
         if(!undeletable)
             deletable = true;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("collision with" + collision.gameObject.name);
+        if (collision.gameObject == NewPlayer.Instance.gameObject)
+        {
+            StartCoroutine(NewPlayer.Instance.Die());
+            //NewPlayer.Instance.rope.hook.GetComponent<HookFollow>().follow = null;
+        }
     }
 
 }

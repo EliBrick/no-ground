@@ -14,6 +14,7 @@ public class HookFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = follow.position;
+        if(follow is not null)
+            transform.position = follow.position;
     }
 }
