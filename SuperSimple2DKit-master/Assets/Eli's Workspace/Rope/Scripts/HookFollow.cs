@@ -14,7 +14,13 @@ public class HookFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(follow is not null)
+        if (follow is not null)
             transform.position = follow.position;
+        else
+        {
+            //Debug.Log("follow is gone");
+            GetComponent<Rigidbody2D>().mass = 100;
+        }
+            
     }
 }

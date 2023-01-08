@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CopyLine : MonoBehaviour
+public class Electricity : MonoBehaviour
 {
     private LineRenderer copyTo;
     public Rope rope;

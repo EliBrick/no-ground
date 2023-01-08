@@ -6,8 +6,8 @@ public class Pylon : MonoBehaviour
 {
     public RopeSegment attachedRopeSegment;
     public bool electrified = false;
-    private bool interactable;
-    SpriteRenderer sr;
+    protected bool interactable;
+    protected SpriteRenderer sr;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -43,8 +43,22 @@ public class Pylon : MonoBehaviour
         }
     }
 
-    void ConnectPylon()
+    protected void ConnectPylon()
     {
+        StartCoroutine(MovePlayerToPylon());
+        
+    }
+
+    public IEnumerator MovePlayerToPylon()
+    {
+        Transform player = NewPlayer.Instance.gameObject.transform;
+        BlockableInput.blockInput = true;
+        while(Mathf.Abs(player.position.x-transform.position.x)>.5f)
+        {
+            player.position = Vector3.Lerp(player.position, new Vector3(transform.position.x, player.position.y, player.position.z), .1f);
+            yield return null;
+        }
+        BlockableInput.blockInput = false;
         attachedRopeSegment = NewPlayer.Instance.rope.AttachDetachPylon(this);
         electrified = (attachedRopeSegment is not null);
         GameManager.Instance.checkPuzzle();

@@ -58,7 +58,7 @@ public class RopeSegment : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("collision with" + collision.gameObject.name);
+        //Debug.Log("collision with" + collision.gameObject.name);
         if (collision.gameObject == NewPlayer.Instance.gameObject)
         {
             StartCoroutine(NewPlayer.Instance.Die());

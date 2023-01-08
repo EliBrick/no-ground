@@ -22,7 +22,7 @@ public class Rope : MonoBehaviour
 
 	public RopeSegment lastConnectedRopeSegment;
 
-	public CopyLine copyLine;
+	public Electricity copyLine;
 
 	void Start()
 	{
@@ -86,6 +86,7 @@ public class Rope : MonoBehaviour
 		secondSegmentCache = transforms[1].GetComponent<RopeSegment>();
         foreach (var t in transforms)
         {
+			if (t == transforms[0]) continue;
 			t.GetComponent<Rigidbody2D>().mass += .01f;
         }
 	}

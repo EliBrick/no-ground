@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -6036018663349019074}
   - component: {fileID: 7655299562699693107}
   m_Layer: 10
-  m_Name: Segment
+  m_Name: Segment Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -150,6 +150,7 @@ MonoBehaviour:
   connectedBelow: {fileID: 0}
   deletable: 0
   undeletable: 0
+  electrified: 0
 --- !u!58 &7655299562699693107
 CircleCollider2D:
   m_ObjectHideFlags: 0

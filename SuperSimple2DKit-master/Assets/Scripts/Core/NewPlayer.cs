@@ -110,7 +110,7 @@ public class NewPlayer : PhysicsObject
         //Lerp launch back to zero at all times
         launch += (0 - launch) * Time.deltaTime * launchRecovery;
 
-        if (Input.GetButtonDown("Cancel"))
+        if (BlockableInput.GetButtonDown("Cancel"))
         {
             pauseMenu.SetActive(true);
         }
@@ -118,7 +118,7 @@ public class NewPlayer : PhysicsObject
         //Movement, jumping, and attacking!
         if (!frozen)
         {
-            move.x = Input.GetAxis("Horizontal") + launch;
+            move.x = BlockableInput.GetAxis("Horizontal") + launch;
             if (groundedLastFrame && !grounded)
             {
                 inAirMomentum = move.x;
@@ -126,12 +126,12 @@ public class NewPlayer : PhysicsObject
             groundedLastFrame = grounded;
             if (!grounded)
             {
-                inAirMomentum += Input.GetAxis("Horizontal")*airMovementModifier;
+                inAirMomentum += BlockableInput.GetAxis("Horizontal")*airMovementModifier;
                 inAirMomentum = Mathf.Clamp(inAirMomentum, -1f, 1f);
                 move.x = inAirMomentum;
             }
 
-            if (Input.GetButtonDown("Jump") && animator.GetBool("grounded") == true && !jumping)
+            if (BlockableInput.GetButtonDown("Jump") && animator.GetBool("grounded") == true && !jumping)
             {
                 animator.SetBool("pounded", false);
                 Jump(1f);
@@ -146,20 +146,20 @@ public class NewPlayer : PhysicsObject
             {
                graphic.transform.localScale = new Vector3(-origLocalScale.x, transform.localScale.y, transform.localScale.z);
             }
-
+            /*
             //Punch
-            if (Input.GetMouseButtonDown(0))
+            if (BlockableInput.GetMouseButtonDown(0))
             {
                 animator.SetTrigger("attack");
                 Shoot(false);
             }
 
             //Secondary attack (currently shooting) with right click
-            if (Input.GetMouseButtonDown(1))
+            if (BlockableInput.GetMouseButtonDown(1))
             {
                 Shoot(true);
             }
-            else if (Input.GetMouseButtonUp(1))
+            else if (BlockableInput.GetMouseButtonUp(1))
             {
                 Shoot(false);
             }
@@ -168,7 +168,7 @@ public class NewPlayer : PhysicsObject
             {
                 SubtractAmmo();
             }
-
+            */
             //Allow the player to jump even if they have just fallen off an edge ("fall forgiveness")
             if (!grounded)
             {
@@ -190,8 +190,8 @@ public class NewPlayer : PhysicsObject
             //Set each animator float, bool, and trigger to it knows which animation to fire
             animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
             animator.SetFloat("velocityY", velocity.y);
-            animator.SetInteger("attackDirectionY", (int)Input.GetAxis("VerticalDirection"));
-            animator.SetInteger("moveDirection", (int)Input.GetAxis("HorizontalDirection"));
+            animator.SetInteger("attackDirectionY", (int)BlockableInput.GetAxis("VerticalDirection"));
+            animator.SetInteger("moveDirection", (int)BlockableInput.GetAxis("HorizontalDirection"));
             animator.SetBool("hasChair", GameManager.Instance.inventory.ContainsKey("chair"));
             targetVelocity = move * maxSpeed;
 
@@ -290,11 +290,12 @@ public class NewPlayer : PhysicsObject
         if (!frozen)
         {
             dead = true;
+            rope.hook.GetComponent<HookFollow>().follow = null;
             deathParticles.Emit(10);
             GameManager.Instance.audioSource.PlayOneShot(deathSound);
             Hide(true);
             Time.timeScale = .6f;
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(2f);
             GameManager.Instance.hud.animator.SetTrigger("coverScreen");
             GameManager.Instance.hud.loadSceneName = SceneManager.GetActiveScene().name;
             Time.timeScale = 1f;
@@ -332,7 +333,7 @@ public class NewPlayer : PhysicsObject
     {
         //Play a step sound at a random pitch between two floats, while also increasing the volume based on the Horizontal axis
         audioSource.pitch = (Random.Range(0.9f, 1.1f));
-        audioSource.PlayOneShot(stepSound, Mathf.Abs(Input.GetAxis("Horizontal") / 10));
+        audioSource.PlayOneShot(stepSound, Mathf.Abs(BlockableInput.GetAxis("Horizontal") / 10));
     }
 
     public void PlayJumpSound()
@@ -448,4 +449,6 @@ public class NewPlayer : PhysicsObject
             GameManager.Instance.GetInventoryItem(cheatItems[i], null);
         }
     }
+
+    
 }

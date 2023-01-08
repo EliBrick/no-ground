@@ -157,7 +157,7 @@ GameObject:
   - component: {fileID: 5050863215394965529}
   - component: {fileID: 5050863215394965531}
   m_Layer: 10
-  m_Name: Rope
+  m_Name: Rope Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
