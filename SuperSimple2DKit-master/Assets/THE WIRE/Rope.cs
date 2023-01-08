@@ -18,6 +18,8 @@ public class Rope : MonoBehaviour
 
 	public RopeSegment secondSegmentCache;
 
+	private Dictionary<Pylon, RopeSegment> attachedPylons = new Dictionary<Pylon, RopeSegment>();
+
 	void Start()
 	{
 		transforms = new List<Transform>();
@@ -36,10 +38,6 @@ public class Rope : MonoBehaviour
 		else if (d2 < 1f && secondSegmentCache.deletable)
         {
 			DeleteNearestSegment();
-        }
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-			AttachToPylon(hook.transform);
         }
 	}
 
@@ -64,7 +62,7 @@ public class Rope : MonoBehaviour
 		
 	}
 
-	void AddHook(bool undeletable = false)
+	void AddHook()
     {
 		GameObject newHook = Instantiate(hookPrefab, transform);
 		newHook.transform.position = hook.transform.position;
@@ -82,12 +80,10 @@ public class Rope : MonoBehaviour
 		transforms[0] = link.transform;
 		transforms.Insert(0, newHook.transform);
 		secondSegmentCache = transforms[1].GetComponent<RopeSegment>();
-		secondSegmentCache.undeletable = undeletable;
         foreach (var t in transforms)
         {
 			t.GetComponent<Rigidbody2D>().mass += .01f;
         }
-		//transforms[links].GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
 	}
 
 	void DeleteNearestSegment()
@@ -125,11 +121,27 @@ public class Rope : MonoBehaviour
 		lr.SetPositions(ps);
     }
 
-	void AttachToPylon(Transform t)
+	public void AttachDetachPylon(Pylon p)
     {
 		//secondSegmentCache.transform.position = t.position;
-		
-		AddHook(true);
-		secondSegmentCache.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+		if(!attachedPylons.ContainsKey(p))
+        {
+			AddHook();
+			secondSegmentCache.undeletable = true;
+			secondSegmentCache.transform.position = p.transform.position;
+			secondSegmentCache.transform.rotation = secondSegmentCache.connectedBelow.transform.rotation;
+			secondSegmentCache.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+			attachedPylons[p] = secondSegmentCache;
+		}
+		else
+		{
+			RopeSegment toDetach = attachedPylons[p];
+			toDetach.undeletable = false;
+			toDetach.deletable = true;
+			toDetach.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+			attachedPylons.Remove(p);
+		}
+
 	}
+
 }

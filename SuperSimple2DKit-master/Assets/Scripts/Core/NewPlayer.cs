@@ -15,6 +15,7 @@ public class NewPlayer : PhysicsObject
     private AnimatorFunctions animatorFunctions;
     public GameObject attackHit;
     private CapsuleCollider2D capsuleCollider;
+    public Rope rope;
     public CameraEffects cameraEffects;
     [SerializeField] private ParticleSystem deathParticles;
     [SerializeField] private AudioSource flameParticlesAudioSource;
