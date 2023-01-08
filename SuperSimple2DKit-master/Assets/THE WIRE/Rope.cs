@@ -35,7 +35,7 @@ public class Rope : MonoBehaviour
 		RenderRope();
 		float d = Vector2.Distance(transforms[0].position, transforms[1].position);
 		float d2 = Vector2.Distance(transforms[1].position, transforms[2].position);
-		if (d > 2 || d2 > 2)
+		if (d > 1 || d2 > 2)
         {
 			AddHook();
         }

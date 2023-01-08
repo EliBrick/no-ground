@@ -17,6 +17,11 @@ public class CopyLine : MonoBehaviour
         if (rope.lastConnectedRopeSegment is null)
         {
             copyTo.positionCount = 0;
+            for (int j = 1; j < rope.transforms.Count; j++)
+            {
+                Transform t = rope.transforms[j];
+                t.GetComponent<RopeSegment>().electrified = false;
+            }
             return;
         }
         int i = rope.transforms.IndexOf(rope.lastConnectedRopeSegment.transform);
