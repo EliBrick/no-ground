@@ -17,4 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DemoLevel.unity
     guid: 53953173316aa0a43a3912f541d85d08
+  - enabled: 1
+    path: Assets/Eli's Workspace/Scenes/A Tutorial.unity
+    guid: f1560ee51f8a650428f7cdfd170c2473
+  - enabled: 1
+    path: Assets/Eli's Workspace/Scenes/Level 1.unity
+    guid: 9d7ab2dbf0064e64b936507621e6cbef
   m_configObjects: {}

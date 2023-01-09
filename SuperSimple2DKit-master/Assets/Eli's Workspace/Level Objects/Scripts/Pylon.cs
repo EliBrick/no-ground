@@ -55,7 +55,7 @@ public class Pylon : MonoBehaviour
         BlockableInput.blockInput = true;
         while(Mathf.Abs(player.position.x-transform.position.x)>.5f)
         {
-            player.position = Vector3.Lerp(player.position, new Vector3(transform.position.x, player.position.y, player.position.z), .1f);
+            player.position = Vector3.Lerp(player.position, new Vector3(transform.position.x, player.position.y, player.position.z), .05f);
             yield return null;
         }
         BlockableInput.blockInput = false;
