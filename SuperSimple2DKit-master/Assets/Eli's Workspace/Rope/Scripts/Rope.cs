@@ -24,22 +24,43 @@ public class Rope : MonoBehaviour
 
 	public Electricity copyLine;
 
+	public float reelForce = 1f;
+
+	public float segmentWeight = .1f;
+	public bool lerpSegments = false;
+
 	void Start()
 	{
 		transforms = new List<Transform>();
+		hook.GetComponent<Rigidbody2D>().mass = segmentWeight;
 		GenerateRope();
 	}
 
     private void Update()
     {
+        if (Input.GetKey(KeyCode.Q))
+        {
+			for (int i = 1; i < transforms.Count - 1; i++)
+			{
+				if (Vector2.Distance(transforms[i].position, transforms[i - 1].position) > 1.5f * linkPrefab.transform.localScale.x) continue;
+				//if (transforms[i].gameObject.GetComponent<Collider2D>().IsTouchingLayers(8)) break;
+				transforms[i].position = Vector3.Lerp(transforms[i].position, transforms[i - 1].position, reelForce / (i));
+			}
+			
+		}
 		RenderRope();
-		float d = Vector2.Distance(transforms[0].position, transforms[1].position);
+		float d = 0;
+        //for(int i = 0; i < transforms.Count-1; i++)
+        //      {
+        //	d = Mathf.Max(d, Vector2.Distance(transforms[i].position, transforms[i+1].position));
+        //}
+        d = Vector2.Distance(transforms[0].position, transforms[1].position);
 		float d2 = Vector2.Distance(transforms[1].position, transforms[2].position);
-		if (d > 1 || d2 > 2)
+		if (d > 2f*linkPrefab.transform.localScale.x || d2 > 2*linkPrefab.transform.localScale.x)
         {
 			AddHook();
         }
-		else if (d2 < 1f && secondSegmentCache.deletable)
+		else if (d2 < 1f*linkPrefab.transform.localScale.x && secondSegmentCache.deletable)
         {
 			DeleteNearestSegment();
         }
@@ -73,6 +94,7 @@ public class Rope : MonoBehaviour
 		GameObject link = Instantiate(linkPrefab, transform);
 		link.transform.position = transforms[1].position;
 		Rigidbody2D rb = newHook.GetComponent<Rigidbody2D>();
+		rb.mass = segmentWeight;
 		link.GetComponent<HingeJoint2D>().connectedBody = rb;
 		HookFollow newHookFollow = newHook.GetComponent<HookFollow>();
 		HookFollow oldHookFollow = hook.GetComponent<HookFollow>();
@@ -86,8 +108,12 @@ public class Rope : MonoBehaviour
 		secondSegmentCache = transforms[1].GetComponent<RopeSegment>();
         foreach (var t in transforms)
         {
+			if (t == transforms[0] || t == transforms[1])// || t == transforms[2])
+				t.GetComponent<Rigidbody2D>().collisionDetectionMode = CollisionDetectionMode2D.Discrete;
+			else
+				t.GetComponent<Rigidbody2D>().collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 			if (t == transforms[0]) continue;
-			t.GetComponent<Rigidbody2D>().mass += .01f;
+			t.GetComponent<Rigidbody2D>().mass += segmentWeight * linkPrefab.transform.localScale.x;
         }
 	}
 
@@ -103,8 +129,12 @@ public class Rope : MonoBehaviour
 		StartCoroutine(secondSegmentCache.CountdownToDeletable(.001f));
 		foreach (var t in transforms)
 		{
+			if (t == transforms[0] || t == transforms[1] )//|| t == transforms[2])
+				t.GetComponent<Rigidbody2D>().collisionDetectionMode = CollisionDetectionMode2D.Discrete;
+			else
+				t.GetComponent<Rigidbody2D>().collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 			if (t == transforms[0]) continue;
-			t.GetComponent<Rigidbody2D>().mass -= .01f;
+			t.GetComponent<Rigidbody2D>().mass -= segmentWeight*linkPrefab.transform.localScale.x;
 		}
 		//transforms[transforms.Count - 1 + links].GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
 	}
@@ -117,12 +147,15 @@ public class Rope : MonoBehaviour
         {
 			ps[i] = transforms[i].position;
         }
-		Vector3[] positions = new Vector3[lr.positionCount];
-		lr.GetPositions(positions);
-		for(int i = 0; i < lr.positionCount-1; i++)
-        {
-			ps[i] = Vector2.Lerp(positions[i], ps[i], .7f);
-        }
+		if (lerpSegments)
+		{
+			Vector3[] positions = new Vector3[lr.positionCount];
+			lr.GetPositions(positions);
+			for (int i = 0; i < lr.positionCount - 1; i++)
+			{
+				ps[i] = Vector2.Lerp(positions[i], ps[i], .7f);
+			}
+		}
 		lr.SetPositions(ps);
     }
 

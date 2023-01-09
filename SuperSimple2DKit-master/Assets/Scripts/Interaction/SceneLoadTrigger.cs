@@ -15,7 +15,7 @@ public class SceneLoadTrigger : MonoBehaviour
         if (col.gameObject == NewPlayer.Instance.gameObject)
         {
             string gsn = SceneManager.GetActiveScene().name;
-            if (gsn.Contains("Level "))
+            if (gsn.Contains("Level ") && loadSceneName.Equals(""))
             {
                 string name = gsn.Substring(gsn.Length - 2);
                 int i = int.Parse(name);

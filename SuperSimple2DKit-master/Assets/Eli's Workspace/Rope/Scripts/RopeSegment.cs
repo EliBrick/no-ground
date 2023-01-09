@@ -15,6 +15,7 @@ public class RopeSegment : MonoBehaviour
         Inst();
         StartCoroutine(CountdownToDeletable(.01f));
         sr = GetComponent<SpriteRenderer>();
+        GetComponent<Rigidbody2D>().mass = NewPlayer.Instance.rope.segmentWeight*transform.localScale.x;
     }
 
     private void Update()
