@@ -22,7 +22,7 @@ public class RopeSegment : MonoBehaviour
         if (electrified)
         {
             sr.color = Color.red;
-            gameObject.layer = 0;
+            gameObject.layer = 20;
         }
         else
         {

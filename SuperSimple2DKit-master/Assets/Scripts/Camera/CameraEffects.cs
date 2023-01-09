@@ -28,7 +28,7 @@ public class CameraEffects : MonoBehaviour
         multiChannelPerlin = virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
         //Tells the virtualCamera what to follow
-        virtualCamera.Follow = NewPlayer.Instance.transform;
+        //virtualCamera.Follow = NewPlayer.Instance.transform;
     }
 
     void Update()

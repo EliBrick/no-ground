@@ -70,13 +70,13 @@ public class GameManager : MonoBehaviour
         }
         if (levelClear)
         {
-            GameObject door = GameObject.Find("Door");
+            GameObject door = GameObject.Find("Exit");
             door.GetComponent<Collider2D>().enabled = true;
             door.GetComponent<SpriteRenderer>().color = Color.green;
         }
         else
         {
-            GameObject door = GameObject.Find("Door");
+            GameObject door = GameObject.Find("Exit");
             door.GetComponent<Collider2D>().enabled = false;
             door.GetComponent<SpriteRenderer>().color = Color.red;
         }
