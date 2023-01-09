@@ -23,4 +23,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Eli's Workspace/Scenes/Level 1.unity
     guid: 9d7ab2dbf0064e64b936507621e6cbef
+  - enabled: 1
+    path: Assets/Eli's Workspace/Scenes/Level 2.unity
+    guid: 631aa2b08061a1841a3aa2c52dc223d8
+  - enabled: 1
+    path: Assets/Eli's Workspace/Scenes/Level 3.unity
+    guid: 168c9cd64fb0daa4bb2f37aba886bfcc
   m_configObjects: {}
