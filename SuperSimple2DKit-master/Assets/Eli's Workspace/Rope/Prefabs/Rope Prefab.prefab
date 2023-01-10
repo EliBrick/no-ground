@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5050863213546946205}
   - component: {fileID: 5050863213546946207}
   - component: {fileID: 5050863213546946206}
-  m_Layer: 10
+  m_Layer: 21
   m_Name: Rope Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86953e5fc3db1fa41bcdef8a4f27332d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  copyFrom: {fileID: 5050863215394965531}
+  rope: {fileID: 0}
 --- !u!1 &5050863215394965528
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,7 +156,7 @@ GameObject:
   - component: {fileID: 5050863215394965530}
   - component: {fileID: 5050863215394965529}
   - component: {fileID: 5050863215394965531}
-  m_Layer: 10
+  m_Layer: 21
   m_Name: Rope Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -196,10 +196,12 @@ MonoBehaviour:
     type: 3}
   linkPrefab: {fileID: 6534652829862549696, guid: 99c7626257f2a784099ac3c31c0aa7ae,
     type: 3}
-  links: 5
+  links: 2
   lr: {fileID: 5050863215394965531}
   transforms: []
   secondSegmentCache: {fileID: 0}
+  lastConnectedRopeSegment: {fileID: 0}
+  copyLine: {fileID: 0}
 --- !u!120 &5050863215394965531
 LineRenderer:
   m_ObjectHideFlags: 0

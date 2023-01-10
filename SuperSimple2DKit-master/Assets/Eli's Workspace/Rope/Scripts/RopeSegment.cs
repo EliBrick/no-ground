@@ -27,7 +27,7 @@ public class RopeSegment : MonoBehaviour
         else
         {
             sr.color = Color.white;
-            gameObject.layer = 10;
+            gameObject.layer = 21;
         }
     }
 

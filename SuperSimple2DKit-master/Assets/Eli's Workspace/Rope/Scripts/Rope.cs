@@ -86,6 +86,14 @@ public class Rope : MonoBehaviour
 		secondSegmentCache = transforms[1].GetComponent<RopeSegment>();
         foreach (var t in transforms)
         {
+			//if (t == transforms[0] || t == transforms[1])
+			//{
+			//	t.GetComponent<Rigidbody2D>().collisionDetectionMode = CollisionDetectionMode2D.Discrete;
+			//}
+			//else
+			//{
+			//	t.GetComponent<Rigidbody2D>().collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+			//}
 			if (t == transforms[0]) continue;
 			t.GetComponent<Rigidbody2D>().mass += .01f;
         }
@@ -103,6 +111,13 @@ public class Rope : MonoBehaviour
 		StartCoroutine(secondSegmentCache.CountdownToDeletable(.001f));
 		foreach (var t in transforms)
 		{
+			//if(t == transforms[0] || t == transforms[1]){
+			//	t.GetComponent<Rigidbody2D>().collisionDetectionMode = CollisionDetectionMode2D.Discrete;
+   //         }
+   //         else
+   //         {
+			//	t.GetComponent<Rigidbody2D>().collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+			//}
 			if (t == transforms[0]) continue;
 			t.GetComponent<Rigidbody2D>().mass -= .01f;
 		}

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6168378066639485}
   - component: {fileID: 7470645079888313252}
   - component: {fileID: -5794774873288376761}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: Hook Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,14 +46,14 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.01
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!233 &7470645079888313252
 HingeJoint2D:
@@ -64,7 +64,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 5960781391232629486}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 0}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
