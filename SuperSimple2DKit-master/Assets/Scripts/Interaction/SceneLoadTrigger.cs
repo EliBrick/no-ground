@@ -14,13 +14,17 @@ public class SceneLoadTrigger : MonoBehaviour
     {
         if (col.gameObject == NewPlayer.Instance.gameObject)
         {
-            string gsn = SceneManager.GetActiveScene().name;
-            if (gsn.Contains("Level "))
+            NewPlayer.Instance.Freeze(true);
+            if (loadSceneName.Equals(""))
             {
-                string name = gsn.Substring(gsn.Length - 2);
-                int i = int.Parse(name);
-                name = "Level " + (i+1);
-                GameManager.Instance.hud.loadSceneName = name;
+                string gsn = SceneManager.GetActiveScene().name;
+                if (gsn.Contains("Level "))
+                {
+                    string name = gsn.Substring(gsn.Length - 2);
+                    int i = int.Parse(name);
+                    name = "Level " + (i + 1);
+                    GameManager.Instance.hud.loadSceneName = name;
+                }
             }
             else
             {

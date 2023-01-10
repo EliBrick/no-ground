@@ -83,6 +83,7 @@ public class NewPlayer : PhysicsObject
 
     void Start()
     {
+        pauseMenu = Resources.FindObjectsOfTypeAll<PauseMenu>()[0].gameObject;
         Cursor.visible = false;
         SetUpCheatItems();
         health = maxHealth;
